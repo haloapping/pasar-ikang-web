@@ -8,15 +8,18 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function getAllProductsLoader({ params }: Route.LoaderArgs) {
+export async function loader({}: Route.LoaderArgs) {
   const baseUrl = process.env.BACKEND_API_URL || "";
   console.log(`${baseUrl}/products`);
 
-  const response = await fetch(`${baseUrl}/products`);
-  const products = await response.json();
-  console.log(products);
+  try {
+    const response = await fetch(`${baseUrl}/products`);
+    const products = await response.json();
 
-  return products;
+    return products;
+  } catch (error) {
+    return error;
+  }
 }
 
 export function HydrateFallback() {
