@@ -10,13 +10,12 @@ export function meta({}: Route.MetaArgs) {
 
 export async function loader({}: Route.LoaderArgs) {
   const baseUrl = process.env.BACKEND_API_URL || "";
-  console.log(`${baseUrl}/products`);
 
   try {
     const response = await fetch(`${baseUrl}/products`);
     const products = await response.json();
 
-    return products;
+    return products.data;
   } catch (error) {
     return error;
   }

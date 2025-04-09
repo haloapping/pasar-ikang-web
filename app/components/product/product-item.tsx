@@ -6,18 +6,17 @@ interface ProductItemProps {
 }
 
 export function ProductItem({ product }: ProductItemProps) {
-  const baseImageKitUrl = process.env.BASE_IMAGEKIT_URL;
   return (
     <NavLink to={`/products/${product.slug}`}>
       <div>
         <img
-          className="rounded-s-sm"
-          src={`${baseImageKitUrl}/${product.imageUrl}`}
+          className="rounded-sm"
+          src={product.imageUrl}
           alt={product.name}
-          width={"300"}
+          width={"500"}
         />
-        <h2>{product.name}</h2>
-        <h3>{product.price}</h3>
+        <h2 className="pb-2">{product.name}</h2>
+        <h3>Rp{product.price.toLocaleString("id-ID")}</h3>
       </div>
     </NavLink>
   );

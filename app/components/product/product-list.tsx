@@ -6,12 +6,10 @@ interface ProductListProps {
 }
 
 export function ProductList({ products }: ProductListProps) {
-  console.log(products);
-
   return (
     <div className="flex gap-3">
       {products.map((product) => {
-        return <ProductItem product={product} />;
+        return <ProductItem product={product} key={product.id} />;
       })}
     </div>
   );
