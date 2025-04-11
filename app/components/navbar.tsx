@@ -12,7 +12,11 @@ export function Navbar() {
       </NavLink>
 
       <div className="flex items-center justify-between gap-4">
-        <Form className="rounded-md border-2" action="/products" method="get">
+        <Form
+          className="rounded-md border-2"
+          action="/products/search"
+          method="get"
+        >
           <input
             className="px-1.5 py-1"
             id="keyword"
