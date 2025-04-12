@@ -2,7 +2,7 @@ import { Outlet } from "react-router";
 import { Navbar } from "../components/navbar";
 import Footer from "../components/footer";
 
-export function Layout() {
+export default function Layout() {
   return (
     <div className="flex justify-center">
       <div className="w-6xl">
@@ -14,7 +14,7 @@ export function Layout() {
           <Outlet />
         </main>
 
-        <footer className="bg-gray-800 py-8 text-white">
+        <footer className="py-8">
           <Footer />
         </footer>
       </div>

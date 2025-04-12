@@ -23,10 +23,6 @@ export async function loader({ params }: Route.LoaderArgs) {
   }
 }
 
-export function HydrateFallback() {
-  return <div>Loading...</div>;
-}
-
 export default function Home({ loaderData }: Route.ComponentProps) {
   const product = loaderData;
 

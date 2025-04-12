@@ -1,3 +1,4 @@
+// route("products/:slug", "./product-slug.tsx");
 import type { Product } from "~/types/product";
 import { Button } from "../ui/button";
 import { MinusIcon, PlusIcon } from "lucide-react";
