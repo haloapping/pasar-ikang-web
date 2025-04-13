@@ -24,7 +24,7 @@ export async function loader({ params }: Route.LoaderArgs) {
   }
 }
 
-export default function Home({ loaderData }: Route.ComponentProps) {
+export default function Product({ loaderData }: Route.ComponentProps) {
   const product = loaderData;
 
   return (
