@@ -2,11 +2,14 @@
 import type { Product } from "~/types/product";
 import { Button } from "../ui/button";
 import { MinusIcon, PlusIcon } from "lucide-react";
+import { useState } from "react";
 
 interface ProductSlugProps {
   product: Product;
 }
 export default function ProductSlug({ product }: ProductSlugProps) {
+  const [quantity, setQuantity] = useState(0);
+
   return (
     <div className="flex flex-row gap-10">
       <img
@@ -24,11 +27,23 @@ export default function ProductSlug({ product }: ProductSlugProps) {
         <p className="mb-3">{product.description}</p>
         <p>Quantity</p>
         <div className="mb-3 flex items-center gap-2">
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            onClick={() => {
+              setQuantity(quantity > 0 ? quantity - 1 : 0);
+            }}
+          >
             <MinusIcon />
           </Button>
-          <span>1</span>
-          <Button variant="outline">
+          <span>{quantity}</span>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setQuantity(
+                quantity < product.stock ? quantity + 1 : product.stock,
+              );
+            }}
+          >
             <PlusIcon />
           </Button>
         </div>
