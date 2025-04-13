@@ -1,5 +1,6 @@
 // route("products/:slug", "routes/product.tsx");
 import ProductSlug from "~/components/product/product-slug";
+import type { Product } from "~/types/product";
 import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
@@ -17,7 +18,7 @@ export async function loader({ params }: Route.LoaderArgs) {
     const response = await fetch(`${baseUrl}/products/${slug}`);
     const product = await response.json();
 
-    return product.data;
+    return product.data as Product;
   } catch (error) {
     return error;
   }
