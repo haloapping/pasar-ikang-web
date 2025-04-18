@@ -25,10 +25,6 @@ export async function loader({ request }: Route.LoaderArgs) {
   }
 }
 
-export function HydrateFallback() {
-  return <div>Loading...</div>;
-}
-
 export default function Search({ loaderData }: Route.ComponentProps) {
   const products = loaderData;
 

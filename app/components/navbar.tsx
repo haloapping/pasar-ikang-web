@@ -28,7 +28,7 @@ export function Navbar() {
         <NavLink to={"/account"}>
           <img src="user.svg" alt="User Icon" />
         </NavLink>
-        <NavLink to={"/cart"}>
+        <NavLink to={"/carts"}>
           <img src="cart.svg" alt="Shopping Cart Icon" />
         </NavLink>
       </div>
