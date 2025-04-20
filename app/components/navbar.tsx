@@ -7,7 +7,7 @@ export function Navbar() {
         to={"/"}
         className="alig flex items-center justify-between gap-4"
       >
-        <img src="pasar-ikang-logo.svg" alt="Pasar Ikang Logo" />
+        <img src="/pasar-ikang-logo.svg" alt="Pasar Ikang Logo" />
         <span>Pasar Ikang</span>
       </NavLink>
 
@@ -25,11 +25,11 @@ export function Navbar() {
             placeholder="ikan tongkol segar"
           />
         </Form>
-        <NavLink to={"/account"}>
-          <img src="user.svg" alt="User Icon" />
+        <NavLink to={"/login"}>
+          <img src="/user.svg" alt="User Icon" />
         </NavLink>
         <NavLink to={"/carts"}>
-          <img src="cart.svg" alt="Shopping Cart Icon" />
+          <img src="/cart.svg" alt="Shopping Cart Icon" />
         </NavLink>
       </div>
     </nav>
