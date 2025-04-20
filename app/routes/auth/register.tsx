@@ -68,7 +68,7 @@ export default function Register({ actionData }: Route.ComponentProps) {
   return (
     <div className="mt-14 flex justify-center">
       <div className="w-2xl">
-        <h1 className="mb-5 text-4xl">Register</h1>
+        <h1 className="mb-5 text-center text-4xl">Register</h1>
         <Form
           method="POST"
           onSubmit={handleSubmit(onSubmit)}
