@@ -1,6 +1,8 @@
 import { z } from "zod";
 
 export const RegisterFormSchema = z.object({
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
   username: z.string().min(1, "Username is cannot empty"),
   email: z.string().email(),
   password: z
@@ -34,7 +36,8 @@ export const RegisterFormSchema = z.object({
     })
     .refine((val) => !/\s/.test(val), {
       message: "Password must not contain spaces",
-    }),
+    })
+    .optional(),
 });
 
 export type RegisterForm = z.infer<typeof RegisterFormSchema>;
