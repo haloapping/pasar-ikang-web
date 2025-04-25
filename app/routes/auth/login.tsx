@@ -19,7 +19,7 @@ export function meta({}: Route.MetaArgs) {
 export async function loader({ request }: Route.LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
 
-  if (session.has("token")) {
+  if (!session.has("token")) {
     return redirect("/");
   }
 
