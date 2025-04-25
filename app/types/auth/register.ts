@@ -1,9 +1,13 @@
 import { z } from "zod";
 
 export const RegisterFormSchema = z.object({
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
-  username: z.string().min(1, "Username is cannot empty"),
+  firstName: z
+    .string()
+    .min(1, { message: "First Name must contain at least 1 character(s)" }),
+  lastName: z
+    .string()
+    .min(1, { message: "Last Name must contain at least 1 character(s)" }),
+  username: z.string().min(1, { message: "Username is cannot empty" }),
   email: z.string().email(),
   password: z
     .string()

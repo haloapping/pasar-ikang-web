@@ -1,13 +1,15 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, type UseFormRegister } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { redirect, useSubmit } from "react-router-dom";
 import type { z } from "zod";
 
-import { RegisterFormSchema, type RegisterForm } from "~/types/auth/register";
-import type { Route } from "./+types/register";
-import { Form, redirect } from "react-router";
+import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { Button } from "~/components/ui/button";
+import { RegisterFormSchema, type RegisterForm } from "~/types/auth/register";
+import type { Route } from "./+types/register";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -18,7 +20,6 @@ export function meta({}: Route.MetaArgs) {
 
 export async function action({ request }: Route.ActionArgs) {
   const registerFormData = await request.formData();
-  console.log(registerFormData);
 
   const newUser: RegisterForm = {
     firstName: String(registerFormData.get("firstName")),
@@ -35,10 +36,6 @@ export async function action({ request }: Route.ActionArgs) {
     body: JSON.stringify(newUser),
   });
 
-  const registerResult = await response.json();
-
-  console.dir(registerResult, { depth: null });
-
   if (!response.ok) {
     return redirect("/register");
   }
@@ -46,7 +43,8 @@ export async function action({ request }: Route.ActionArgs) {
   return redirect("/login");
 }
 
-export default function Register({ actionData }: Route.ComponentProps) {
+export default function Register() {
+  const submit = useSubmit();
   const {
     register,
     handleSubmit,
@@ -63,25 +61,31 @@ export default function Register({ actionData }: Route.ComponentProps) {
     },
   });
 
-  const onSubmit = () => {};
+  const onSubmit = handleSubmit((data) => {
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    submit(formData, { method: "post" });
+  });
 
   return (
     <div className="mt-14 flex justify-center">
-      <div className="w-2xl">
+      <div className="w-full max-w-md">
         <h1 className="mb-5 text-center text-4xl">Register</h1>
-        <Form
-          method="POST"
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-4"
-        >
+        <form onSubmit={onSubmit} className="flex flex-col gap-4">
           <div>
             <Label htmlFor="firstName" className="mb-2">
               First Name
             </Label>
             <Input type="text" id="firstName" {...register("firstName")} />
-            <p className="mt-1 text-sm text-red-400">
-              {errors.firstName?.message}
-            </p>
+            {errors.firstName && (
+              <p className="mt-1 text-sm text-red-400">
+                {errors.firstName.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -89,9 +93,11 @@ export default function Register({ actionData }: Route.ComponentProps) {
               Last Name
             </Label>
             <Input type="text" id="lastName" {...register("lastName")} />
-            <p className="mt-1 text-sm text-red-400">
-              {errors.lastName?.message}
-            </p>
+            {errors.lastName && (
+              <p className="mt-1 text-sm text-red-400">
+                {errors.lastName.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -99,9 +105,11 @@ export default function Register({ actionData }: Route.ComponentProps) {
               Username
             </Label>
             <Input type="text" id="username" {...register("username")} />
-            <p className="mt-1 text-sm text-red-400">
-              {errors.username?.message}
-            </p>
+            {errors.username && (
+              <p className="mt-1 text-sm text-red-400">
+                {errors.username.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -109,31 +117,43 @@ export default function Register({ actionData }: Route.ComponentProps) {
               Email
             </Label>
             <Input type="text" id="email" {...register("email")} />
-            <p className="mt-1 text-sm text-red-400">{errors.email?.message}</p>
+            {errors.email && (
+              <p className="mt-1 text-sm text-red-400">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           <div>
             <Label htmlFor="password" className="mb-2">
               Password
             </Label>
-            <Input type="password" {...register("password")} />
-            <p className="mt-1 text-sm text-red-400">
-              {errors.password?.message}
-            </p>
+            <Input type="password" id="password" {...register("password")} />
+            {errors.password && (
+              <p className="mt-1 text-sm text-red-400">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
           <div>
-            <Label htmlFor="confirm-password" className="mb-2">
+            <Label htmlFor="confirmPassword" className="mb-2">
               Confirm Password
             </Label>
-            <Input type="password" {...register("confirmPassword")} />
-            <p className="mt-1 text-sm text-red-400">
-              {errors.confirmPassword?.message}
-            </p>
+            <Input
+              type="password"
+              id="confirmPassword"
+              {...register("confirmPassword")}
+            />
+            {errors.confirmPassword && (
+              <p className="mt-1 text-sm text-red-400">
+                {errors.confirmPassword.message}
+              </p>
+            )}
           </div>
 
           <Button type="submit">Register</Button>
-        </Form>
+        </form>
       </div>
     </div>
   );
