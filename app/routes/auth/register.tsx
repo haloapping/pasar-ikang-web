@@ -1,8 +1,6 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { redirect, useSubmit } from "react-router-dom";
+import { redirect, useSubmit } from "react-router";
 import type { z } from "zod";
 
 import { Button } from "~/components/ui/button";

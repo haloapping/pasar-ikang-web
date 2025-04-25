@@ -19,8 +19,8 @@ export function meta({}: Route.MetaArgs) {
 export async function loader({ request }: Route.LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
 
-  if (!session.has("token")) {
-    return redirect("/");
+  if (session.has("token")) {
+    return redirect("/dashboard");
   }
 
   return data(
@@ -33,7 +33,7 @@ export async function action({ request }: Route.ActionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
   const loginFormData = await request.formData();
 
-  const newUser: LoginForm = {
+  const loginUserData: LoginForm = {
     username: String(loginFormData.get("username")),
     password: String(loginFormData.get("password")),
   };
@@ -41,7 +41,7 @@ export async function action({ request }: Route.ActionArgs) {
   const response = await fetch(`${process.env.BACKEND_API_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newUser),
+    body: JSON.stringify(loginUserData),
   });
 
   if (!response.ok) {
@@ -52,11 +52,10 @@ export async function action({ request }: Route.ActionArgs) {
   }
 
   const loginResult: { token: string } = await response.json();
-  console.info({ loginResult });
 
   session.set("token", loginResult.token);
 
-  return redirect("/", {
+  return redirect("/dashboard", {
     headers: { "Set-Cookie": await commitSession(session) },
   });
 }
