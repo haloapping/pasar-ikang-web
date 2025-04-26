@@ -1,55 +1,11 @@
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
-import { Form, redirect } from "react-router";
-import { destroySession, getSession } from "~/session.server";
-import type { AddToCartType } from "~/types/cart";
+import { Form } from "react-router";
 import type { Product } from "~/types/product";
-import type { Route } from "../../routes/+types/product";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 interface ProductSlugProps {
   product: Product;
-}
-
-export async function loader({ params }: Route.LoaderArgs) {
-  const response = await fetch(
-    `${process.env.BACKEND_API_URL}/products/${params.slug}`,
-  );
-  const product: Product = await response.json();
-
-  return product;
-}
-
-export async function action({ request }: Route.ActionArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  if (!session.has("token")) {
-    return redirect("/login");
-  }
-  const token = session.get("token");
-
-  const formData = await request.formData();
-
-  const addCartItemData: AddToCartType = {
-    productId: String(formData.get("productId")),
-    quantity: Number(formData.get("quantity")),
-  };
-
-  const response = await fetch(`${process.env.BACKEND_API_URL}/cart/items`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(addCartItemData),
-  });
-  if (!response.ok) {
-    session.flash("error", "Failed to add item to cart");
-    return redirect("/login", {
-      headers: { "Set-Cookie": await destroySession(session) },
-    });
-  }
-
-  return redirect("/cart");
 }
 
 export default function ProductSlug({ product }: ProductSlugProps) {
