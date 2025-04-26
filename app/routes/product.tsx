@@ -1,4 +1,3 @@
-// route("products/:slug", "routes/product.tsx");
 import ProductSlug from "~/components/product/product-slug";
 import type { Product } from "~/types/product";
 import type { Route } from "./+types/home";
@@ -10,7 +9,7 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
+export async function loader({ params }: Route.ActionArgs) {
   const baseUrl = process.env.BACKEND_API_URL || "";
   const slug = params.slug;
 

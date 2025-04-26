@@ -1,20 +1,20 @@
-import type { CartItemType } from "~/types/cart";
+import type { CartType } from "~/types/cart";
 import { Button } from "../ui/button";
 import CartItem from "./cart-item";
 
 interface CardListProps {
-  products: CartItemType[];
+  cart: CartType;
 }
 
-export default function CartList({ products }: CardListProps) {
+export default function CartList({ cart }: CardListProps) {
   return (
     <>
       <h1 className="mb-5 text-4xl">Shopping Cart</h1>
 
       <div className="flex">
         <div className="mb-5">
-          {products.map((product) => {
-            return <CartItem product={product} key={product.id} />;
+          {cart.items.map((item) => {
+            return <CartItem product={item} key={item.id} />;
           })}
         </div>
 

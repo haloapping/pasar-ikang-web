@@ -1,5 +1,8 @@
 import CartList from "~/components/cart/cart-list";
 import type { Route } from "./+types/home";
+import { destroySession, getSession } from "~/session.server";
+import { redirect } from "react-router";
+import type { CartType } from "~/types/cart";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,28 +11,46 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({}: Route.LoaderArgs) {
-  const baseUrl = process.env.BACKEND_API_URL || "";
-
+export async function loader({ request }: Route.LoaderArgs) {
   try {
-    const response = await fetch(
-      `${baseUrl}/carts/${"01JRTMQHV4S5J5Q0AF5X6J1KTM"}`,
-    );
-    const cartProducts = await response.json();
+    const baseUrl = process.env.BACKEND_API_URL || "";
 
-    console.dir(cartProducts, { depth: null });
-    return cartProducts.data;
+    const session = await getSession(request.headers.get("Cookie"));
+    if (!session.has("token")) {
+      return redirect("/login");
+    }
+
+    const token = session.get("token");
+
+    const response = await fetch(`${baseUrl}/carts`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      return redirect("/login", {
+        headers: { "Set-Cookie": await destroySession(session) },
+      });
+    }
+
+    const cart: CartType = await response.json();
+    console.info({ cart });
+
+    return cart;
   } catch (error) {
     return error;
   }
 }
 
 export default function Cart({ loaderData }: Route.ComponentProps) {
-  const cartProducts = loaderData;
+  const cart = loaderData;
 
   return (
     <>
-      <CartList products={cartProducts} />
+      <CartList cart={cart} />
     </>
   );
 }
