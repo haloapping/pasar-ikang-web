@@ -27,31 +27,10 @@ export default function ProductSlug({ product }: ProductSlugProps) {
         <p className="mb-3">Stock: {product?.stock}</p>
         <p className="mb-3">{product?.description}</p>
         <p>Quantity</p>
-        <div className="mb-3 flex items-center gap-2">
-          <Button
-            variant="outline"
-            onClick={() => {
-              setQuantity(quantity > 1 ? quantity - 1 : 1);
-            }}
-          >
-            <MinusIcon />
-          </Button>
-          <span>{quantity}</span>
-          <Button
-            variant="outline"
-            onClick={() => {
-              setQuantity(
-                quantity < product?.stock ? quantity + 1 : product?.stock,
-              );
-            }}
-          >
-            <PlusIcon />
-          </Button>
-        </div>
 
         <div>
           <Form method="post" className="flex gap-4">
-            <input type="hidden" name="productId" defaultValue={product?.id} />
+            <Input type="hidden" name="productId" defaultValue={product?.id} />
             <Input
               type="number"
               name="quantity"
