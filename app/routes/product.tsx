@@ -1,9 +1,8 @@
+// import { redirect } from "react-router";
+import ProductDetails from "~/components/product/product-details";
+// import { getSession } from "~/session.server";
 import type { Product } from "~/types/product";
 import type { Route } from "./+types/home";
-import { destroySession, getSession } from "~/session.server";
-import { redirect } from "react-router";
-import type { AddToCartType } from "~/types/cart";
-import ProductSlug from "./product-slug";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,7 +11,7 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.ActionArgs) {
+export async function loader({ params }: Route.LoaderArgs) {
   const baseUrl = process.env.BACKEND_API_URL || "";
   const slug = params.slug;
 
@@ -27,44 +26,50 @@ export async function loader({ params }: Route.ActionArgs) {
 }
 
 export async function action({ request }: Route.ActionArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  if (!session.has("token")) {
-    return redirect("/login");
-  }
+  // const session = await getSession(request.headers.get("Cookie"));
+  // if (!session.has("token")) return redirect("/login");
 
-  const token = session.get("token");
+  // const token = session.get("token");
+
+  // console.log({ token });
+
   const formData = await request.formData();
 
-  const addCartItemData: AddToCartType = {
-    productId: String(formData.get("productId")),
-    quantity: Number(formData.get("quantity")),
-  };
+  console.log({ action: "action" });
 
-  const response = await fetch(`${process.env.BACKEND_API_URL}/cart/items`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(addCartItemData),
-  });
+  return null;
 
-  if (!response.ok) {
-    session.flash("error", "Failed to add item to cart");
-    return redirect("/login", {
-      headers: { "Set-Cookie": await destroySession(session) },
-    });
-  }
+  // const addCartItemData: AddToCartType = {
+  //   productId: String(formData.get("productId")),
+  //   quantity: Number(formData.get("quantity")),
+  // };
 
-  return redirect("/cart");
+  // const response = await fetch(`${process.env.BACKEND_API_URL}/cart/items`, {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  //   body: JSON.stringify(addCartItemData),
+  // });
+
+  // if (!response.ok) {
+  //   session.flash("error", "Failed to add item to cart");
+  //   return redirect("/login", {
+  //     headers: { "Set-Cookie": await destroySession(session) },
+  //   });
+  // }
+
+  // return redirect("/cart");
 }
 
-export default function Product({ loaderData }: Route.ComponentProps) {
+export default function ProductRoute({ loaderData }: Route.ComponentProps) {
   const product = loaderData;
 
   return (
     <div className="mt-8">
-      <ProductSlug product={product} />
+      {product && <ProductDetails product={product} />}
+      {/* <pre>{JSON.stringify(product, null, 2)}</pre> */}
     </div>
   );
 }

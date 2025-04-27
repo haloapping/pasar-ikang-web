@@ -14,7 +14,7 @@ export default function CartList({ cart }: CardListProps) {
       <div className="flex">
         <div className="mb-5">
           {cart.items.map((item) => {
-            return <CartItem product={item} key={item.id} />;
+            return <CartItem cartItem={item} key={item.id} />;
           })}
         </div>
 

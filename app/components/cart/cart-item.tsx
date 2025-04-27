@@ -1,25 +1,27 @@
 import type { CartItemType } from "~/types/cart";
 
 interface CartItemProps {
-  product: CartItemType;
+  cartItem: CartItemType;
 }
 
-export default function CartItem({ product }: CartItemProps) {
+export default function CartItem({ cartItem }: CartItemProps) {
   return (
     <div className="mb-3.5 flex flex-row gap-10">
       <img
-        src={product.product.imageUrl}
-        alt={product.product.name}
+        src={cartItem.product.imageUrl}
+        alt={cartItem.product.name}
         width={200}
       />
       <div>
-        <p>{product.product.name}</p>
-        <p>{product.product.price.toLocaleString("id-ID")}</p>
+        <p>{cartItem.product.name}</p>
+        <p>{cartItem.product.price.toLocaleString("id-ID")}</p>
         <div>
-          <p>Quantity: {product.quantity}</p>
+          <p>Quantity: {cartItem.quantity}</p>
           <p>
             Subtotal: Rp
-            {(product.product.price * product.quantity).toLocaleString("id-ID")}
+            {(cartItem.product.price * cartItem.quantity).toLocaleString(
+              "id-ID",
+            )}
           </p>
         </div>
       </div>
