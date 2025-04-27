@@ -22,7 +22,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 
     const token = session.get("token");
 
-    const response = await fetch(`${baseUrl}/carts`, {
+    const response = await fetch(`${baseUrl}/cart`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
