@@ -1,16 +1,13 @@
-import { MinusIcon, PlusIcon } from "lucide-react";
-import { useState } from "react";
 import { Form } from "react-router";
 import type { Product } from "~/types/product";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+
 interface ProductSlugProps {
   product: Product;
 }
 
 export default function ProductSlug({ product }: ProductSlugProps) {
-  const [quantity, setQuantity] = useState(1);
-
   return (
     <div className="flex flex-row gap-10">
       <img
@@ -36,7 +33,7 @@ export default function ProductSlug({ product }: ProductSlugProps) {
               name="quantity"
               className="max-w-20"
               min={1}
-              max={100}
+              max={product?.stock}
               defaultValue={1}
             />
             <Button type="submit">Add to Cart</Button>

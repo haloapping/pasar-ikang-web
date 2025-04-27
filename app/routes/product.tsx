@@ -1,9 +1,9 @@
-import ProductSlug from "~/components/product/product-slug";
 import type { Product } from "~/types/product";
 import type { Route } from "./+types/home";
 import { destroySession, getSession } from "~/session.server";
 import { redirect } from "react-router";
 import type { AddToCartType } from "~/types/cart";
+import ProductSlug from "./product-slug";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -31,8 +31,8 @@ export async function action({ request }: Route.ActionArgs) {
   if (!session.has("token")) {
     return redirect("/login");
   }
-  const token = session.get("token");
 
+  const token = session.get("token");
   const formData = await request.formData();
 
   const addCartItemData: AddToCartType = {
@@ -48,6 +48,7 @@ export async function action({ request }: Route.ActionArgs) {
     },
     body: JSON.stringify(addCartItemData),
   });
+
   if (!response.ok) {
     session.flash("error", "Failed to add item to cart");
     return redirect("/login", {

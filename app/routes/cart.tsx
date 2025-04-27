@@ -37,7 +37,6 @@ export async function loader({ request }: Route.LoaderArgs) {
     }
 
     const cart: CartType = await response.json();
-    console.info({ cart });
 
     return cart;
   } catch (error) {

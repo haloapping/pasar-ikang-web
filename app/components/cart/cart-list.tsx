@@ -18,15 +18,17 @@ export default function CartList({ cart }: CardListProps) {
           })}
         </div>
 
-        <div>
+        <div className="ml-[200px]">
           <div>
             <h2>Order Summary | 2 Item(s)</h2>
             <h3>Item(s) subtotal Rp...</h3>
             <h4>Order Total</h4>
           </div>
 
-          <Button>Checkout</Button>
-          <Button>Continue Shopping</Button>
+          <div className="flex gap-3">
+            <Button>Checkout</Button>
+            <Button>Continue Shopping</Button>
+          </div>
         </div>
       </div>
     </>

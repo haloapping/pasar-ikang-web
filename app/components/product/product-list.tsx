@@ -11,7 +11,7 @@ export function ProductList({ products }: ProductListProps) {
   }
 
   return (
-    <div className="flex flex-wrap justify-center gap-3">
+    <div className="mb-4 flex flex-wrap justify-center gap-6">
       {products.map((product) => {
         return <ProductItem product={product} key={product.id} />;
       })}

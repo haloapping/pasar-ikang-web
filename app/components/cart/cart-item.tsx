@@ -6,7 +6,7 @@ interface CartItemProps {
 
 export default function CartItem({ product }: CartItemProps) {
   return (
-    <div className="flex flex-row gap-5">
+    <div className="mb-3.5 flex flex-row gap-10">
       <img
         src={product.product.imageUrl}
         alt={product.product.name}
